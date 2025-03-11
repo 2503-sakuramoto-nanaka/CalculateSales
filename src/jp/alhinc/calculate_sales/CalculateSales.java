@@ -51,6 +51,52 @@ public class CalculateSales {
 
 		    }
 		}
+        //●ここから保持した売上ファイルの読み込みを行う(rcdFiles)
+		BufferedReader br = null;
+        for(int i = 0 ; i < rcdFiles.size(); i++) {
+
+        	try {
+        		File file = new File(args[0],rcdFiles.get(i).getName()) ;
+        		FileReader fr = new FileReader(file);
+        		br = new BufferedReader(fr);
+
+        		String line;
+        		//●salesという新しいListを作る
+        		ArrayList<String> sales = new ArrayList<String>();
+        		//●1行ずつ読み込みlineに代入
+        		while((line = br.readLine()) != null) {
+        			//●読み込んだ情報をsalesに追加
+        			sales.add(line);
+
+        	    }
+        		//●売上ファイルから読み込んだ売上金額をlong型へ変換を行う
+        	    long fileSale = Long.parseLong(sales.get(1));
+
+        	    //●既にMapにある売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとして
+        	    //  売上ファイルに読み込み型変換した売上金額と足す
+			    Long saleAmount = branchSales.get(sales.get(0)) + fileSale;
+
+			    //●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
+			    branchSales.put(sales.get(0),saleAmount);
+
+        	} catch(IOException e) {
+    			System.out.println(UNKNOWN_ERROR);
+    			return ;
+    		} finally {
+    			// ファイルを開いている場合
+    			if(br != null) {
+    				try {
+    					// ファイルを閉じる
+    					br.close();
+    				} catch(IOException e) {
+    					System.out.println(UNKNOWN_ERROR);
+    					return ;
+    				}
+    			}
+    		}
+    		return ;
+    	}
+
 
 
 		// 支店別集計ファイル書き込み処理
@@ -117,6 +163,8 @@ public class CalculateSales {
 	 */
 	private static boolean writeFile(String path, String fileName, Map<String, String> branchNames, Map<String, Long> branchSales) {
 		// ※ここに書き込み処理を作成してください。(処理内容3-1)
+
+
 
 		return true;
 	}
