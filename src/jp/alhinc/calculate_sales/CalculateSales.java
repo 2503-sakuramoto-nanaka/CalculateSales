@@ -66,16 +66,16 @@ public class CalculateSales {
         		//●1行ずつ読み込みlineに代入
 
         		while((line = br.readLine()) != null) {
-        		//●読み込んだ情報をsalesに追加
-        		sales.add(line);
-        	    }
+        			//●読み込んだ情報をsalesに追加
+        			sales.add(line);
+        		}
 
         		//●売上ファイルから読み込んだ売上金額をlong型へ変換を行う
-        	    long fileSale = Long.parseLong(sales.get(1));
+        		long fileSale = Long.parseLong(sales.get(1));
 
-        	    //●既にMapにある売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとして
-        	    //●売上ファイルに読み込み型変換した売上金額と足す
-			    Long saleAmount = branchSales.get(sales.get(0)) + fileSale;
+        		//●既にMapにある売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとして
+        		//●売上ファイルに読み込み型変換した売上金額と足す
+        		Long saleAmount = branchSales.get(sales.get(0)) + fileSale;
 			    //●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
 			    branchSales.put(sales.get(0), saleAmount);
 
@@ -122,10 +122,10 @@ public class CalculateSales {
 			// 一行ずつ読み込む
 			while((line = br.readLine()) != null) {
 			// ※ここの読み込み処理を変更してください。(処理内容1-2)
-			String[] items = line.split(",");
+				String[] items = line.split(",");
 
-			branchNames.put(items[0], items[1]);
-			branchSales.put(items[0], 0L);
+				branchNames.put(items[0], items[1]);
+				branchSales.put(items[0], 0L);
 			}
 		} catch(IOException e) {
 			System.out.println(UNKNOWN_ERROR);
@@ -166,10 +166,10 @@ public class CalculateSales {
 
 			//●MapからKeyの⼀覧を取得してKeyの数だけ繰り返す
 			for (String key : branchNames.keySet()) {
-			//●支店コードをキーとして支店名と合計金額を書き込む
-			bw.write(key + "," + branchNames.get(key) + "," + branchSales.get(key));
-			//●支店ごとに改行
-			bw.newLine();
+				//●支店コードをキーとして支店名と合計金額を書き込む
+				bw.write(key + "," + branchNames.get(key) + "," + branchSales.get(key));
+				//●支店ごとに改行
+				bw.newLine();
 			}
 		} catch(IOException e) {
 			System.out.println(UNKNOWN_ERROR);
