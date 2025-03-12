@@ -51,7 +51,7 @@ public class CalculateSales {
 		    	rcdFiles.add(files[i]);
 		    }
 		}
-        //●ここから保持した売上ファイルの読み込みを行う(rcdFiles)
+		//●ここから保持した売上ファイルの読み込みを行う(rcdFiles)
 		BufferedReader br = null;
 		for(int i = 0 ; i < rcdFiles.size(); i++) {
 
