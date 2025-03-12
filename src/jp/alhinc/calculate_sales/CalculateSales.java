@@ -46,19 +46,17 @@ public class CalculateSales {
 		List<File> rcdFiles = new ArrayList<>();
 
 		for(int i = 0; i<files.length ; i++) {
-			System.out.println(files[i].getName());
 
 		    if(files[i].getName().matches("^[0-9]{8}[.]rcd$")) {
 		    	rcdFiles.add(files[i]);
-
 		    }
 		}
         //●ここから保持した売上ファイルの読み込みを行う(rcdFiles)
 		BufferedReader br = null;
-        for(int i = 0 ; i < rcdFiles.size(); i++) {
+		for(int i = 0 ; i < rcdFiles.size(); i++) {
 
         	try {
-        		File file = new File(args[0],rcdFiles.get(i).getName()) ;
+        		File file = new File(args[0], rcdFiles.get(i).getName()) ;
         		FileReader fr = new FileReader(file);
         		br = new BufferedReader(fr);
 
@@ -66,20 +64,20 @@ public class CalculateSales {
         		//●salesという新しいListを作る
         		ArrayList<String> sales = new ArrayList<String>();
         		//●1行ずつ読み込みlineに代入
-        		while((line = br.readLine()) != null) {
-        			//●読み込んだ情報をsalesに追加
-        			sales.add(line);
 
+        		while((line = br.readLine()) != null) {
+        		//●読み込んだ情報をsalesに追加
+        		sales.add(line);
         	    }
+
         		//●売上ファイルから読み込んだ売上金額をlong型へ変換を行う
         	    long fileSale = Long.parseLong(sales.get(1));
 
         	    //●既にMapにある売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとして
-        	    //  売上ファイルに読み込み型変換した売上金額と足す
+        	    //●売上ファイルに読み込み型変換した売上金額と足す
 			    Long saleAmount = branchSales.get(sales.get(0)) + fileSale;
-
 			    //●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
-			    branchSales.put(sales.get(0),saleAmount);
+			    branchSales.put(sales.get(0), saleAmount);
 
         	} catch(IOException e) {
     			System.out.println(UNKNOWN_ERROR);
@@ -97,14 +95,10 @@ public class CalculateSales {
     			}
     		}
     	}
-
-
-
 		// 支店別集計ファイル書き込み処理
 		if(!writeFile(args[0], FILE_NAME_BRANCH_OUT, branchNames, branchSales)) {
 			return;
 		}
-
 	}
 
 	/**
@@ -127,14 +121,12 @@ public class CalculateSales {
 			String line;
 			// 一行ずつ読み込む
 			while((line = br.readLine()) != null) {
-				// ※ここの読み込み処理を変更してください。(処理内容1-2)
-				String[] items = line.split(",");
+			// ※ここの読み込み処理を変更してください。(処理内容1-2)
+			String[] items = line.split(",");
 
-				branchNames.put(items[0], items[1]);
-				branchSales.put(items[0], 0L);
-
+			branchNames.put(items[0], items[1]);
+			branchSales.put(items[0], 0L);
 			}
-
 		} catch(IOException e) {
 			System.out.println(UNKNOWN_ERROR);
 			return false;
@@ -168,18 +160,17 @@ public class CalculateSales {
 		BufferedWriter bw = null;
 
 		try {
-			File file = new File(path,fileName);
+			File file = new File(path, fileName);
 			FileWriter fw = new FileWriter(file);
 			bw = new BufferedWriter(fw);
 
-				//●MapからKeyの⼀覧を取得してKeyの数だけ繰り返す
-				for (String key : branchNames.keySet()) {
-					//●支店コードをキーとして支店名と合計金額を書き込む
-					bw.write(key + "," + branchNames.get(key) + "," + branchSales.get(key));
-					//●支店ごとに改行
-					bw.newLine();
-				}
-
+			//●MapからKeyの⼀覧を取得してKeyの数だけ繰り返す
+			for (String key : branchNames.keySet()) {
+			//●支店コードをキーとして支店名と合計金額を書き込む
+			bw.write(key + "," + branchNames.get(key) + "," + branchSales.get(key));
+			//●支店ごとに改行
+			bw.newLine();
+			}
 		} catch(IOException e) {
 			System.out.println(UNKNOWN_ERROR);
 			return false;
@@ -195,9 +186,6 @@ public class CalculateSales {
 				}
 			}
 		}
-
-
 		return true;
 	  }
-
     }
