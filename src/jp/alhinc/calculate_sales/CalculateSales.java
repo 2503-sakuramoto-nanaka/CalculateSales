@@ -46,55 +46,54 @@ public class CalculateSales {
 		List<File> rcdFiles = new ArrayList<>();
 
 		for(int i = 0; i<files.length ; i++) {
-
-		    if(files[i].getName().matches("^[0-9]{8}[.]rcd$")) {
-		    	rcdFiles.add(files[i]);
-		    }
+			if(files[i].getName().matches("^[0-9]{8}[.]rcd$")) {
+				rcdFiles.add(files[i]);
+			}
 		}
 		//●ここから保持した売上ファイルの読み込みを行う(rcdFiles)
 		BufferedReader br = null;
 		for(int i = 0 ; i < rcdFiles.size(); i++) {
 
-        	try {
-        		File file = new File(args[0], rcdFiles.get(i).getName()) ;
-        		FileReader fr = new FileReader(file);
-        		br = new BufferedReader(fr);
+			try {
+				File file = new File(args[0], rcdFiles.get(i).getName()) ;
+				FileReader fr = new FileReader(file);
+				br = new BufferedReader(fr);
 
-        		String line;
-        		//●salesという新しいListを作る
-        		ArrayList<String> sales = new ArrayList<String>();
-        		//●1行ずつ読み込みlineに代入
+				String line;
+				//●salesという新しいListを作る
+				ArrayList<String> sales = new ArrayList<String>();
+				//●1行ずつ読み込みlineに代入
 
-        		while((line = br.readLine()) != null) {
-        			//●読み込んだ情報をsalesに追加
-        			sales.add(line);
-        		}
+				while((line = br.readLine()) != null) {
+					//●読み込んだ情報をsalesに追加
+					sales.add(line);
+				}
 
-        		//●売上ファイルから読み込んだ売上金額をlong型へ変換を行う
-        		long fileSale = Long.parseLong(sales.get(1));
+				//●売上ファイルから読み込んだ売上金額をlong型へ変換を行う
+				long fileSale = Long.parseLong(sales.get(1));
 
-        		//●既にMapにある売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとして
-        		//●売上ファイルに読み込み型変換した売上金額と足す
-        		Long saleAmount = branchSales.get(sales.get(0)) + fileSale;
-			    //●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
-			    branchSales.put(sales.get(0), saleAmount);
+				//●既にMapにある売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとして
+				//●売上ファイルに読み込み型変換した売上金額と足す
+				Long saleAmount = branchSales.get(sales.get(0)) + fileSale;
+				//●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
+				branchSales.put(sales.get(0), saleAmount);
 
-        	} catch(IOException e) {
-    			System.out.println(UNKNOWN_ERROR);
-    			return ;
-    		} finally {
-    			// ファイルを開いている場合
-    			if(br != null) {
-    				try {
-    					// ファイルを閉じる
-    					br.close();
-    				} catch(IOException e) {
-    					System.out.println(UNKNOWN_ERROR);
-    					return ;
-    				}
-    			}
-    		}
-    	}
+			} catch(IOException e) {
+				System.out.println(UNKNOWN_ERROR);
+				return ;
+			} finally {
+				// ファイルを開いている場合
+				if(br != null) {
+					try {
+						// ファイルを閉じる
+						br.close();
+					} catch(IOException e) {
+						System.out.println(UNKNOWN_ERROR);
+						return ;
+					}
+				}
+			}
+		}
 		// 支店別集計ファイル書き込み処理
 		if(!writeFile(args[0], FILE_NAME_BRANCH_OUT, branchNames, branchSales)) {
 			return;
@@ -121,7 +120,7 @@ public class CalculateSales {
 			String line;
 			// 一行ずつ読み込む
 			while((line = br.readLine()) != null) {
-			// ※ここの読み込み処理を変更してください。(処理内容1-2)
+				// ※ここの読み込み処理を変更してください。(処理内容1-2)
 				String[] items = line.split(",");
 
 				branchNames.put(items[0], items[1]);
@@ -188,4 +187,4 @@ public class CalculateSales {
 		}
 		return true;
 	  }
-    }
+	}
