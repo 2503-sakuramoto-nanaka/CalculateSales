@@ -77,7 +77,6 @@ public class CalculateSales {
 		}
 		//売上ファイルの数だけ　処理を繰り返します
 		for(int i = 0 ; i < rcdFiles.size(); i++) {
-
 			try {
 				File file = new File(args[0], rcdFiles.get(i).getName()) ;
 				FileReader fr = new FileReader(file);
@@ -108,7 +107,7 @@ public class CalculateSales {
 				}
 				//▲売上⾦額が数字ではなかった場合は、
 			    //▲エラーメッセージ「予期せぬエラーが発生しました」をコンソールに表示
-				if(!sales.get(1).matches("[0-9]")) {
+				if(!sales.get(1).matches("[0-9]*")) {
 					System.out.println(UNKNOWN_ERROR);
 					return;
 				}
