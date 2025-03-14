@@ -41,25 +41,25 @@ public class CalculateSales {
 		// 支店コードと売上金額を保持するMap
 		Map<String, Long> branchSales = new HashMap<>();
 
-		// 支店定義ファイル読み込み処理
-		if(!readFile(args[0], FILE_NAME_BRANCH_LST, branchNames, branchSales)) {
-			return;
-		}
 		//▲コマンドライン引数が1つ設定されていなかった場合は、
 		//▲エラーメッセージ「予期せぬエラーが発生しました」をコンソールに表示
 		if (args.length != 1) {
-		   System.out.println(UNKNOWN_ERROR);
+			System.out.println(UNKNOWN_ERROR);
+			return;
+		}
+		// 支店定義ファイル読み込み処理
+		if(!readFile(args[0], FILE_NAME_BRANCH_LST, branchNames, branchSales)) {
+			return;
 		}
 		// ※ここから集計処理を作成してください。(処理内容2-1、2-2)
 		File[] files = new File(args[0]).listFiles();
 		List<File> rcdFiles = new ArrayList<>();
 
-		for(int i = 0; i<files.length ; i++) {
+		for(int i = 0; i < files.length; i++) {
 			//▲対象がファイルであり、「数字8桁.rcd」なのか判定します。
 			//●turuなら売上集計課題ファイルの中から、支店別売上ファイルのみ、rcdFilesという新しいリストに追加
 			if(files[i].isFile() && files[i].getName().matches("^[0-9]{8}[.]rcd$")) {
 				rcdFiles.add(files[i]);
-			}else {
 				return;
 			}
 		}
@@ -69,10 +69,10 @@ public class CalculateSales {
 		//▲売上ファイルが連番になっていない場合は、
 		//▲エラーメッセージ「売上ファイル名が連番になっていません」を表示し処理を終了
 		//▲まず、比較する2つのファイル名の先頭から数字の8文字を切り出し、int型に変換
+		Collections.sort(rcdFiles);
 		for(int i = 0; i < rcdFiles.size() - 1; i++) {
-			Collections.sort(rcdFiles);
 			int former = Integer.parseInt(rcdFiles.get(i).getName().substring(0, 8));
-			int latter = Integer.parseInt(rcdFiles.get(i+1).getName().substring(0, 8));
+			int latter = Integer.parseInt(rcdFiles.get(i + 1).getName().substring(0, 8));
 			//▲2つのファイル名の数字を比較して、差が1ではなかったら、エラーメッセージをコンソールに表示
 			if((latter - former) != 1) {
 				System.out.println(FILE_NAME_NOT_SERIALNUMBER);
@@ -80,9 +80,9 @@ public class CalculateSales {
 			}
 		}
 		//売上ファイルの数だけ　処理を繰り返します
-		for(int i = 0 ; i < rcdFiles.size(); i++) {
+		for(int i = 0; i < rcdFiles.size(); i++) {
 			try {
-				File file = new File(args[0], rcdFiles.get(i).getName()) ;
+				File file = new File(args[0], rcdFiles.get(i).getName());
 				FileReader fr = new FileReader(file);
 				br = new BufferedReader(fr);
 
@@ -128,8 +128,8 @@ public class CalculateSales {
 					System.out.println(SALEAMOUNT_OVER_10DIGITS);
 					return;
 				}else {
-				//●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
-				branchSales.put(sales.get(0), saleAmount);
+					//●加算した売上⾦額を、売上ファイルに読み込んだ支店コードをkeyとしてMapに追加
+					branchSales.put(sales.get(0), saleAmount);
 				}
 			} catch(IOException e) {
 				System.out.println(UNKNOWN_ERROR);
@@ -186,8 +186,8 @@ public class CalculateSales {
 					System.out.println(FILE_INVALID_FORMAT);
 					return false;
 				}else {
-				branchNames.put(items[0], items[1]);
-				branchSales.put(items[0], 0L);
+					branchNames.put(items[0], items[1]);
+					branchSales.put(items[0], 0L);
 				}
 			}
 		} catch(IOException e) {
